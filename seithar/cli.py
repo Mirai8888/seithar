@@ -6,6 +6,36 @@ import json
 import sys
 
 
+def cmd_inoculate(args):
+    """Generate inoculation for an SCT technique."""
+    from seithar.inoculator.inoculator import inoculate, list_available, format_inoculation
+    if args.list:
+        codes = list_available()
+        print(f"Available inoculations: {', '.join(codes)}")
+        return
+    if not args.code:
+        print("Error: provide an SCT code (e.g. SCT-001) or --list", file=sys.stderr)
+        sys.exit(1)
+    result = inoculate(args.code.upper())
+    if args.json:
+        print(json.dumps(result, indent=2))
+    else:
+        print(format_inoculation(result))
+
+
+def cmd_profile(args):
+    """Profile text for cognitive patterns."""
+    from seithar.profiler.profiler import profile_text, format_profile
+    if not args.text:
+        print("Error: provide --text", file=sys.stderr)
+        sys.exit(1)
+    result = profile_text(args.text)
+    if args.json:
+        print(json.dumps(result, indent=2))
+    else:
+        print(format_profile(result))
+
+
 def cmd_serve(args):
     """Start the API server."""
     from seithar.api import serve
@@ -98,14 +128,16 @@ def main():
     intel_p.add_argument("--arxiv", action="store_true", help="Fetch from arXiv")
     intel_p.add_argument("--json", action="store_true", dest="json", help="JSON output")
 
-    # inoculate (stub)
+    # inoculate
     inoc_p = sub.add_parser("inoculate", help="Generate inoculation")
-    inoc_p.add_argument("code", nargs="?", help="SCT code")
+    inoc_p.add_argument("code", nargs="?", help="SCT code (e.g. SCT-001)")
     inoc_p.add_argument("--list", action="store_true", help="List available")
+    inoc_p.add_argument("--json", action="store_true", dest="json", help="JSON output")
 
-    # profile (stub)
-    prof_p = sub.add_parser("profile", help="Profile text")
+    # profile
+    prof_p = sub.add_parser("profile", help="Profile text for cognitive patterns")
     prof_p.add_argument("--text", help="Text to profile")
+    prof_p.add_argument("--json", action="store_true", dest="json", help="JSON output")
 
     # serve
     serve_p = sub.add_parser("serve", help="Start API server")
@@ -122,6 +154,8 @@ def main():
         "taxonomy": cmd_taxonomy,
         "intel": cmd_intel,
         "serve": cmd_serve,
+        "inoculate": cmd_inoculate,
+        "profile": cmd_profile,
     }
 
     handler = dispatch.get(args.command)

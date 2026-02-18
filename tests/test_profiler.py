@@ -1,58 +1,104 @@
-"""Tests for seithar.profiler — substrate profiler."""
+"""Tests for seithar.profiler."""
 import pytest
+from seithar.profiler.profiler import (
+    profile_text, _tokenize, _extract_themes,
+    _compute_sentiment, _find_emotional_words,
+    _assess_vulnerabilities, _compute_style, format_profile,
+)
 
 
-class TestProfilerImports:
-    def test_import_module(self):
-        import seithar.profiler  # noqa: F401
+class TestTokenize:
+    def test_basic(self):
+        tokens = _tokenize("Hello World! Test 123.")
+        assert "hello" in tokens
+        assert "world" in tokens
 
-    def test_import_profile_text(self):
-        from seithar.profiler.profiler import profile_text  # noqa: F401
+    def test_empty(self):
+        assert _tokenize("") == []
 
-    def test_import_profile_result(self):
-        from seithar.profiler.profiler import ProfileResult  # noqa: F401
-
-    def test_import_internal_functions(self):
-        from seithar.profiler.profiler import _tokenize  # noqa: F401
-        from seithar.profiler.profiler import _extract_themes  # noqa: F401
-        from seithar.profiler.profiler import _compute_sentiment  # noqa: F401
-        from seithar.profiler.profiler import _find_emotional_words  # noqa: F401
-        from seithar.profiler.profiler import _assess_vulnerabilities  # noqa: F401
+    def test_strips_punctuation(self):
+        tokens = _tokenize("don't stop! now?")
+        assert all(t.isalnum() for t in tokens)
 
 
-class TestProfilerStubs:
-    def test_profile_text_raises(self):
-        from seithar.profiler.profiler import profile_text
-        with pytest.raises(NotImplementedError):
-            profile_text("some text to profile")
+class TestSentiment:
+    def test_positive(self):
+        score = _compute_sentiment(["good", "great", "love"])
+        assert score > 0
 
-    def test_tokenize_raises(self):
-        from seithar.profiler.profiler import _tokenize
-        with pytest.raises(NotImplementedError):
-            _tokenize("test")
+    def test_negative(self):
+        score = _compute_sentiment(["bad", "terrible", "hate"])
+        assert score < 0
 
-    def test_extract_themes_raises(self):
-        from seithar.profiler.profiler import _extract_themes
-        with pytest.raises(NotImplementedError):
-            _extract_themes(["test"], 5)
+    def test_neutral(self):
+        score = _compute_sentiment(["the", "cat", "sat"])
+        assert score == 0.0
 
-    def test_compute_sentiment_raises(self):
-        from seithar.profiler.profiler import _compute_sentiment
-        with pytest.raises(NotImplementedError):
-            _compute_sentiment(["test"])
-
-    def test_find_emotional_words_raises(self):
-        from seithar.profiler.profiler import _find_emotional_words
-        with pytest.raises(NotImplementedError):
-            _find_emotional_words(["test"])
-
-    def test_assess_vulnerabilities_raises(self):
-        from seithar.profiler.profiler import _assess_vulnerabilities
-        with pytest.raises(NotImplementedError):
-            _assess_vulnerabilities([], 0.0, [])
+    def test_empty(self):
+        assert _compute_sentiment([]) == 0.0
 
 
-class TestProfileResult:
-    def test_is_dataclass(self):
-        from seithar.profiler.profiler import ProfileResult
-        assert hasattr(ProfileResult, "__dataclass_fields__")
+class TestThemes:
+    def test_extracts_common(self):
+        tokens = ["security"] * 5 + ["threat"] * 3 + ["the"] * 10
+        themes = _extract_themes(tokens, top_n=3)
+        names = [t[0] for t in themes]
+        assert "security" in names
+
+    def test_empty(self):
+        assert _extract_themes([]) == []
+
+
+class TestEmotional:
+    def test_finds_emotional(self):
+        tokens = ["urgent", "cat", "shocking", "dog"]
+        result = _find_emotional_words(tokens)
+        assert "urgent" in result
+        assert "shocking" in result
+        assert "cat" not in result
+
+
+class TestVulnerabilities:
+    def test_returns_list(self):
+        style = {"exclamation_density": 0.0}
+        result = _assess_vulnerabilities(["urgent", "now", "act"], 0.0, style)
+        assert isinstance(result, list)
+
+    def test_detects_urgency(self):
+        style = {"exclamation_density": 0.0}
+        result = _assess_vulnerabilities(["urgent", "now", "deadline"], -0.1, style)
+        codes = [v["code"] for v in result]
+        assert "SCT-006" in codes
+
+    def test_empty_input(self):
+        result = _assess_vulnerabilities([], 0.0, {})
+        assert result == []
+
+
+class TestProfileText:
+    def test_returns_dict(self):
+        result = profile_text("This is a test of the profiler system.")
+        assert isinstance(result, dict)
+        assert "themes" in result
+        assert "sentiment" in result
+        assert "vulnerabilities" in result
+        assert "style" in result
+
+    def test_detects_emotional_content(self):
+        result = profile_text("URGENT! Shocking revelations! Terrifying truth exposed!")
+        assert len(result["emotional_words"]) > 0
+
+    def test_format_profile(self):
+        result = profile_text("This is a test.")
+        formatted = format_profile(result)
+        assert "SEITHAR SUBSTRATE PROFILE" in formatted
+
+
+class TestStyle:
+    def test_computes_style(self):
+        text = "Short. Very short. Extremely short sentences!"
+        tokens = _tokenize(text)
+        style = _compute_style(text, tokens)
+        assert "avg_sentence_length" in style
+        assert "sentence_count" in style
+        assert style["sentence_count"] >= 3
