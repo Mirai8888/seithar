@@ -23,21 +23,24 @@ class TestIntelImports:
         from seithar.intel.arxiv import DEFAULT_FEEDS  # noqa: F401
 
 
-class TestIntelStubs:
-    def test_fetch_rss_feed_raises(self):
-        from seithar.intel.feeds import fetch_rss_feed
-        with pytest.raises(NotImplementedError):
-            fetch_rss_feed("https://example.com/rss", "test")
-
-    def test_score_item_raises(self):
+class TestScorerFunctional:
+    def test_score_item_relevant(self):
         from seithar.intel.scorer import score_item
-        with pytest.raises(NotImplementedError):
-            score_item(None)
+        item = {"title": "Cognitive warfare in the age of disinformation", "summary": "A study on propaganda techniques."}
+        score, matched = score_item(item)
+        assert score > 0
+        assert len(matched) > 0
 
-    def test_fetch_arxiv_papers_raises(self):
-        from seithar.intel.arxiv import fetch_arxiv_papers
-        with pytest.raises(NotImplementedError):
-            fetch_arxiv_papers()
+    def test_score_item_irrelevant(self):
+        from seithar.intel.scorer import score_item
+        item = {"title": "Cooking pasta", "summary": "A recipe for spaghetti."}
+        score, matched = score_item(item)
+        assert score == 0
+
+    def test_score_item_none(self):
+        from seithar.intel.scorer import score_item
+        score, matched = score_item(None)
+        assert score == 0.0
 
 
 class TestScorerKeywords:

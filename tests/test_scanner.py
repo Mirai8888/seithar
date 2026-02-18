@@ -28,41 +28,44 @@ class TestScannerImports:
         from seithar.scanner.scanner import _PATTERNS  # noqa: F401
 
 
-class TestScannerStubs:
-    """All stub functions must exist with correct signatures and raise NotImplementedError."""
-
-    def test_scan_text_raises(self):
+class TestScannerFunctional:
+    def test_scan_text_returns_dict(self):
         from seithar.scanner.scanner import scan_text
-        with pytest.raises(NotImplementedError):
-            scan_text("test content", "test source")
+        result = scan_text("This is a test", "test")
+        assert isinstance(result, dict)
+        assert "techniques" in result
 
-    def test_scan_url_raises(self):
-        from seithar.scanner.scanner import scan_url
-        with pytest.raises(NotImplementedError):
-            scan_url("https://example.com")
+    def test_scan_text_detects_threats(self):
+        from seithar.scanner.scanner import scan_text
+        result = scan_text("URGENT act now before it's too late! Share this immediately!", "test")
+        assert len(result["techniques"]) > 0
 
-    def test_scan_file_raises(self):
-        from seithar.scanner.scanner import scan_file
-        with pytest.raises(NotImplementedError):
-            scan_file("/tmp/test.txt")
+    def test_scan_text_benign(self):
+        from seithar.scanner.scanner import scan_text
+        result = scan_text("The weather is nice today.", "test")
+        assert result["threat_classification"] == "Benign" or len(result["techniques"]) == 0
 
-    def test_fetch_url_raises(self):
-        from seithar.scanner.scanner import fetch_url
-        with pytest.raises(NotImplementedError):
-            fetch_url("https://example.com")
-
-    def test_format_report_raises(self):
-        from seithar.scanner.scanner import format_report
-        with pytest.raises(NotImplementedError):
-            format_report(None)
-
-    def test_strip_html_raises(self):
+    def test_strip_html(self):
         from seithar.scanner.scanner import _strip_html
-        with pytest.raises(NotImplementedError):
-            _strip_html("<p>test</p>")
+        assert "hello" in _strip_html("<p>hello</p>")
+
+    def test_format_report_none(self):
+        from seithar.scanner.scanner import format_report
+        result = format_report(None)
+        assert isinstance(result, str)
+
+    def test_format_report_dict(self):
+        from seithar.scanner.scanner import format_report
+        report = {"threat_classification": "Benign", "severity": 0, "techniques": [], "_metadata": {"source": "test"}, "mode": "test"}
+        result = format_report(report)
+        assert "SEITHAR" in result
 
 
 class TestScannerPatterns:
     def test_patterns_is_dict(self):
         from seithar.scanner.scanner import _PATTERNS
         assert isinstance(_PATTERNS, dict)
+
+    def test_patterns_has_entries(self):
+        from seithar.scanner.scanner import _PATTERNS
+        assert len(_PATTERNS) > 0
