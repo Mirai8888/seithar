@@ -3,8 +3,12 @@ Seithar Cognitive Defense Taxonomy — Single Source of Truth.
 
 SCT-001 through SCT-012: canonical definitions of cognitive exploitation
 techniques mapped to cyber and cognitive analogs.
+
+Canonical source: taxonomy.json at repo root (synced from seithar-cogdef).
 """
+import json
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass(frozen=True)
