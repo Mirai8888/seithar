@@ -6,6 +6,12 @@ import json
 import sys
 
 
+def cmd_serve(args):
+    """Start the API server."""
+    from seithar.api import serve
+    serve(host=args.host, port=args.port)
+
+
 def cmd_scan(args):
     """Run cognitive threat scanner."""
     from seithar.scanner.scanner import scan_text, scan_url, scan_file, format_report
@@ -101,6 +107,11 @@ def main():
     prof_p = sub.add_parser("profile", help="Profile text")
     prof_p.add_argument("--text", help="Text to profile")
 
+    # serve
+    serve_p = sub.add_parser("serve", help="Start API server")
+    serve_p.add_argument("--host", default="0.0.0.0", help="Bind address")
+    serve_p.add_argument("--port", type=int, default=8900, help="Port")
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
@@ -110,6 +121,7 @@ def main():
         "scan": cmd_scan,
         "taxonomy": cmd_taxonomy,
         "intel": cmd_intel,
+        "serve": cmd_serve,
     }
 
     handler = dispatch.get(args.command)
