@@ -16,18 +16,18 @@ class SCTechnique:
 
 
 SCT_TAXONOMY: dict[str, SCTechnique] = {
-    "SCT-001": SCTechnique("SCT-001", "Narrative Injection", "Insertion of false or misleading narratives into information streams to shape perception."),
-    "SCT-002": SCTechnique("SCT-002", "Emotional Amplification", "Deliberate amplification of emotional content to override rational analysis."),
-    "SCT-003": SCTechnique("SCT-003", "Authority Spoofing", "Impersonation or fabrication of authoritative sources to lend false credibility."),
-    "SCT-004": SCTechnique("SCT-004", "Consensus Manufacturing", "Creation of artificial consensus through coordinated inauthentic behavior."),
-    "SCT-005": SCTechnique("SCT-005", "Identity Fragmentation", "Exploitation of identity-group divisions to weaken collective coherence."),
-    "SCT-006": SCTechnique("SCT-006", "Attention Hijacking", "Redirection of public attention away from critical issues toward decoys."),
-    "SCT-007": SCTechnique("SCT-007", "Trust Erosion", "Systematic degradation of trust in institutions, media, or interpersonal relationships."),
-    "SCT-008": SCTechnique("SCT-008", "Cognitive Overload", "Flooding targets with contradictory or excessive information to induce paralysis."),
-    "SCT-009": SCTechnique("SCT-009", "Memetic Weaponization", "Packaging exploitative content in viral memetic formats for rapid spread."),
-    "SCT-010": SCTechnique("SCT-010", "Temporal Manipulation", "Exploiting timing — urgency, delay, or synchronization — to maximize cognitive impact."),
-    "SCT-011": SCTechnique("SCT-011", "Platform Exploitation", "Abuse of platform algorithms and affordances to amplify cognitive attacks."),
-    "SCT-012": SCTechnique("SCT-012", "Epistemic Closure", "Sealing targets within self-reinforcing information environments that resist correction."),
+    "SCT-001": SCTechnique("SCT-001", "Emotional Hijacking", "Exploiting affective processing to bypass rational evaluation."),
+    "SCT-002": SCTechnique("SCT-002", "Information Asymmetry Exploitation", "Leveraging what the target does not know."),
+    "SCT-003": SCTechnique("SCT-003", "Authority Fabrication", "Manufacturing trust signals the source does not legitimately possess."),
+    "SCT-004": SCTechnique("SCT-004", "Social Proof Manipulation", "Weaponizing herd behavior and conformity instincts."),
+    "SCT-005": SCTechnique("SCT-005", "Identity Targeting", "Attacks calibrated to the target's self-concept and group affiliations."),
+    "SCT-006": SCTechnique("SCT-006", "Temporal Manipulation", "Exploiting time pressure, temporal context, or scheduling."),
+    "SCT-007": SCTechnique("SCT-007", "Recursive Infection", "Self-replicating patterns where the target becomes the vector."),
+    "SCT-008": SCTechnique("SCT-008", "Direct Substrate Intervention", "Physical/electrical modification of neural hardware bypassing informational processing."),
+    "SCT-009": SCTechnique("SCT-009", "Chemical Substrate Disruption", "Pharmacological modification of neurochemical operating environment."),
+    "SCT-010": SCTechnique("SCT-010", "Sensory Channel Manipulation", "Exploiting perceptual processing through sensory overload or deprivation."),
+    "SCT-011": SCTechnique("SCT-011", "Trust Infrastructure Destruction", "Systematic dismantling of epistemic trust networks."),
+    "SCT-012": SCTechnique("SCT-012", "Commitment Escalation & Self-Binding", "Engineering progressive commitment that becomes self-reinforcing."),
 }
 
 SEVERITY_LABELS: dict[int, str] = {
