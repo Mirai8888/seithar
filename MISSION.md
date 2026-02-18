@@ -31,3 +31,11 @@ This asymmetry is the problem Seithar addresses.
 Seithar Group Research Division
 研修生 | 認知作戦
 seithar.com
+
+## Recent Changes
+
+| Date | Change |
+|------|--------|
+| 2026-02-18 | Taxonomy v2.0 propagated across all repos (12 SCT codes, dual-substrate) |
+| 2026-02-18 | Cross-repo shared config module added to seithar-cogdef |
+| 2026-02-18 | GitHub monitoring hooks for ecosystem-wide visibility |
