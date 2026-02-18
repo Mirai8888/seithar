@@ -1,12 +1,15 @@
-"""
-Threat intelligence relevance scoring.
+"""Threat intelligence relevance scoring."""
 
-Scores IntelItems against keyword profiles for cognitive warfare relevance.
+DEFAULT_PRIMARY: list[str] = [
+    "cognitive warfare", "disinformation", "information operations",
+    "influence operations", "psychological operations", "psyops",
+]
 
-Will contain:
-    - DEFAULT_PRIMARY: list[str] — high-value cognitive warfare keywords
-    - DEFAULT_SECONDARY: list[str] — supporting keywords
-    - score_item(item, primary_keywords, secondary_keywords, ...) -> float
+DEFAULT_SECONDARY: list[str] = [
+    "misinformation", "propaganda", "narrative", "social media manipulation",
+    "bot network", "troll farm", "astroturfing",
+]
 
-Sources: ThreatMouth/threatmouth/scorer.py, seithar-autoprompt/src/ingester.py
-"""
+
+def score_item(item, primary_keywords=None, secondary_keywords=None) -> float:
+    raise NotImplementedError

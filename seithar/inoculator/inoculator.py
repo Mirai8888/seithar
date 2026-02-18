@@ -1,19 +1,15 @@
-"""
-Seithar Inoculation Engine (SIE).
+"""Seithar Inoculation Engine (SIE)."""
 
-Generates defensive counter-content that inoculates targets against
-specific cognitive exploitation techniques. Based on psychological
-inoculation theory (McGuire, 1964).
+_INOCULATIONS: dict[str, str] = {}
 
-Seithar approach: expose the MECHANISM, not a counter-argument.
-Counter-arguments trigger identity defense. Mechanism exposure
-triggers recognition — the only sustainable defense.
 
-Will contain:
-    - _INOCULATIONS dict: pre-built templates for SCT-001 through SCT-007
-    - inoculate(sct_code) -> InoculationResult
-    - list_available() -> list[str]
-    - format_inoculation(result) -> str
+def inoculate(sct_code: str):
+    raise NotImplementedError
 
-Source: seithar-cogdef/inoculator.py
-"""
+
+def list_available() -> list[str]:
+    raise NotImplementedError
+
+
+def format_inoculation(result) -> str:
+    raise NotImplementedError

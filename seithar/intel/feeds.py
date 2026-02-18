@@ -1,12 +1,9 @@
-"""
-RSS/Atom feed ingestion for threat intelligence.
+"""RSS/Atom feed ingestion for threat intelligence."""
 
-Fetches and parses feeds, returning structured IntelItems.
 
-Will contain:
-    - _clean_html(text) -> str
-    - _parse_date(entry) -> datetime | None
-    - fetch_rss_feed(url, source_name, max_items) -> list[IntelItem]
+def _clean_html(text: str) -> str:
+    raise NotImplementedError
 
-Source: ThreatMouth/threatmouth/collectors/rss.py (simplified, no async)
-"""
+
+def fetch_rss_feed(url: str, source_name: str = "unknown", max_items: int = 50) -> list:
+    raise NotImplementedError

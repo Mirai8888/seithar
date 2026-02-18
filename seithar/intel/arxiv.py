@@ -1,13 +1,13 @@
-"""
-arXiv paper ingestion and filtering.
+"""arXiv paper ingestion and filtering."""
 
-Fetches arXiv RSS feeds for cognitive-warfare-adjacent research
-and scores papers by relevance.
+DEFAULT_FEEDS: list[dict] = [
+    {"url": "https://rss.arxiv.org/rss/cs.CY", "category": "cs.CY"},
+    {"url": "https://rss.arxiv.org/rss/cs.SI", "category": "cs.SI"},
+]
 
-Will contain:
-    - DEFAULT_FEEDS: list of arXiv RSS feed configs
-    - ARXIV_PRIMARY / ARXIV_SECONDARY: keyword lists
-    - fetch_arxiv_papers(feeds, min_score, state_file) -> list[IntelItem]
+ARXIV_PRIMARY: list[str] = ["cognitive warfare", "disinformation"]
+ARXIV_SECONDARY: list[str] = ["misinformation", "propaganda"]
 
-Source: seithar-autoprompt/src/ingester.py
-"""
+
+def fetch_arxiv_papers(feeds=None, min_score=0.0, state_file=None) -> list:
+    raise NotImplementedError

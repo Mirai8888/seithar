@@ -1,10 +1,50 @@
-"""
-Shared data types for the Seithar platform.
+"""Shared data types for the Seithar platform."""
+from dataclasses import dataclass, asdict
+from typing import Any
 
-Will contain:
-    - TechniqueMatch: single detected cognitive exploitation technique
-    - ScanResult: result of scanning content for cognitive threats
-    - IntelItem: single intelligence item (paper, feed entry, advisory)
-    - InoculationResult: result of generating an inoculation
-    - All types include to_dict() for JSON serialization
-"""
+
+@dataclass
+class TechniqueMatch:
+    """A single detected cognitive exploitation technique."""
+    code: str
+    name: str
+    confidence: float
+    evidence: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class ScanResult:
+    """Result of scanning content for cognitive threats."""
+    source: str
+    matches: list[TechniqueMatch]
+    raw_text: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class IntelItem:
+    """A single intelligence item."""
+    title: str
+    url: str
+    source: str
+    summary: str = ""
+    score: float = 0.0
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class InoculationResult:
+    """Result of generating an inoculation."""
+    code: str
+    technique_name: str
+    content: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)

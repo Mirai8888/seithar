@@ -1,17 +1,34 @@
-"""
-Substrate profiler: extract psychological and behavioral signals from text.
+"""Substrate profiler."""
+from dataclasses import dataclass
 
-Performs theme extraction, sentiment analysis, and emotional pattern
-detection without external dependencies beyond the standard library.
 
-Will contain:
-    - ProfileResult dataclass
-    - _tokenize(text) -> list[str]
-    - _extract_themes(tokens, top_n) -> list[tuple[str, int]]
-    - _compute_sentiment(tokens) -> float
-    - _find_emotional_words(tokens) -> list[str]
-    - _assess_vulnerabilities(themes, sentiment, tokens) -> list[str]
-    - profile_text(text) -> ProfileResult
+@dataclass
+class ProfileResult:
+    themes: list
+    sentiment: float
+    emotional_words: list
+    vulnerabilities: list
 
-Source: HoleSpawn/holespawn/profile/analyzer.py (simplified, no vaderSentiment dep)
-"""
+
+def _tokenize(text: str) -> list[str]:
+    raise NotImplementedError
+
+
+def _extract_themes(tokens: list[str], top_n: int = 5) -> list[tuple[str, int]]:
+    raise NotImplementedError
+
+
+def _compute_sentiment(tokens: list[str]) -> float:
+    raise NotImplementedError
+
+
+def _find_emotional_words(tokens: list[str]) -> list[str]:
+    raise NotImplementedError
+
+
+def _assess_vulnerabilities(themes: list, sentiment: float, tokens: list) -> list[str]:
+    raise NotImplementedError
+
+
+def profile_text(text: str) -> ProfileResult:
+    raise NotImplementedError
