@@ -1,0 +1,1 @@
+# Seithar MCP Server
