@@ -10,7 +10,7 @@ class TestTaxonomy:
 
     def test_full(self):
         result = self.tax.full()
-        assert "techniques" in result
+        assert "taxonomy" in result
 
     def test_query_by_code(self):
         result = self.tax.query(code="SCT-001")
