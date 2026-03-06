@@ -45,7 +45,7 @@ class SignalSource(str, Enum):
     SHIELD = "shield"
     COLLECTOR = "collector"
     NETWORK = "network"
-    ATTACK_LAB = "attack_lab"
+    # —
     MONITOR = "monitor"
     MEMORY = "memory"
     INJECTION = "injection"

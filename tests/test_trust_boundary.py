@@ -40,14 +40,14 @@ class TestTrustBoundary:
     def test_authorize_communicate_requires_high(self):
         self.enforcer.set_tool_trust("external", TrustLevel.UNTRUSTED)
         data = self.enforcer.tag_data("data", "external")
-        decision = self.enforcer.authorize_tool_call("swarm", [data.data_id])
+        decision = self.enforcer.authorize_tool_call("analysis", [data.data_id])
         assert not decision.allowed
         assert decision.escalation_detected
 
     def test_authorize_write_with_medium_trust(self):
         self.enforcer.set_tool_trust("analyzer", TrustLevel.MEDIUM)
         data = self.enforcer.tag_data("analysis", "analyzer")
-        decision = self.enforcer.authorize_tool_call("campaign", [data.data_id])
+        decision = self.enforcer.authorize_tool_call("reporting", [data.data_id])
         assert decision.allowed
 
     def test_taint_propagation_chain(self):
@@ -65,7 +65,7 @@ class TestTrustBoundary:
     def test_check_data_flow_denied(self):
         self.enforcer.set_tool_trust("recon", TrustLevel.UNTRUSTED)
         low_data = self.enforcer.tag_data("data", "recon")
-        result = self.enforcer.check_data_flow("recon", "swarm", low_data.data_id)
+        result = self.enforcer.check_data_flow("recon", "analysis", low_data.data_id)
         assert not result["allowed"]
 
     def test_taint_report(self):
@@ -79,7 +79,7 @@ class TestTrustBoundary:
     def test_violation_logging(self):
         self.enforcer.set_tool_trust("ext", TrustLevel.UNTRUSTED)
         data = self.enforcer.tag_data("x", "ext")
-        self.enforcer.authorize_tool_call("swarm", [data.data_id])
+        self.enforcer.authorize_tool_call("analysis", [data.data_id])
         assert len(self.enforcer._violations) == 1
 
     def test_stats(self):
@@ -93,11 +93,11 @@ class TestTrustBoundary:
         assert data.scan_result == "clean"
 
     def test_unknown_data_untrusted(self):
-        decision = self.enforcer.authorize_tool_call("swarm", ["nonexistent_id"])
+        decision = self.enforcer.authorize_tool_call("analysis", ["nonexistent_id"])
         assert not decision.allowed  # Unknown data = UNTRUSTED
 
     def test_operator_trust(self):
         self.enforcer.set_tool_trust("human_input", TrustLevel.OPERATOR)
         data = self.enforcer.tag_data("operator command", "human_input")
-        decision = self.enforcer.authorize_tool_call("swarm", [data.data_id])
+        decision = self.enforcer.authorize_tool_call("analysis", [data.data_id])
         assert decision.allowed

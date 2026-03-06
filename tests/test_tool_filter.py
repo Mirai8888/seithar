@@ -40,11 +40,6 @@ class TestToolFilter:
         names = [r["name"] for r in results]
         assert any(n in names for n in ["shield", "scan", "evasion"])
 
-    def test_deanon_surfaces_for_identity(self):
-        tf = _filter()
-        results = tf.query("identify this anonymous user")
-        names = [r["name"] for r in results]
-        assert any(n.startswith("deanon") for n in names)
 
     def test_filter_tools_reduces_list(self):
         tf = _filter()

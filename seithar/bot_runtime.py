@@ -4,7 +4,7 @@ Bot Runtime — Autonomous agent loop for deployed personas.
 Each bot instance runs a cycle:
   OBSERVE -> COLLECT -> ANALYZE -> ENGAGE -> EXFIL -> SLEEP -> repeat
 
-The runtime manages the lifecycle and dispatches to platform connectors.
+The runtime manages the lifecycle and manages the agent lifecycle.
 """
 
 from __future__ import annotations

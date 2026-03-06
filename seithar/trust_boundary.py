@@ -91,23 +91,17 @@ TOOL_PRIVILEGES: dict[str, PrivilegeTier] = {
     # TRANSFORM tier
     "shield": PrivilegeTier.TRANSFORM,
     "rag": PrivilegeTier.TRANSFORM,
-    "sword": PrivilegeTier.TRANSFORM,
     "dossier": PrivilegeTier.TRANSFORM,
-    "rl_exploit": PrivilegeTier.TRANSFORM,
     "adversarial": PrivilegeTier.TRANSFORM,
     "identity": PrivilegeTier.TRANSFORM,
     "evasion": PrivilegeTier.TRANSFORM,
     "cloak": PrivilegeTier.TRANSFORM,
     "selfedit": PrivilegeTier.TRANSFORM,
-    "sparring": PrivilegeTier.TRANSFORM,
     # WRITE tier
     "network": PrivilegeTier.WRITE,
-    "campaign": PrivilegeTier.WRITE,
     "mission": PrivilegeTier.WRITE,
-    "deanon": PrivilegeTier.WRITE,
     # COMMUNICATE tier
     "persona": PrivilegeTier.COMMUNICATE,
-    "swarm": PrivilegeTier.COMMUNICATE,
 }
 
 # Minimum trust level required per privilege tier

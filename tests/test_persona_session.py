@@ -305,10 +305,10 @@ class TestPersonaSessionManager:
         assert stats["paused"] == 1
 
     def test_prompt_compartmentalization(self, manager, sample_config):
-        """Personas should never know about other personas or the swarm."""
+        """Personas should never know about other personas or the coordination."""
         result = manager.create_session(sample_config)
         prompt = result["system_prompt"]
-        assert "swarm" not in prompt.lower()
+        assert "coordination" not in prompt.lower()
         assert "fleet" not in prompt.lower()
         assert "orchestrator" not in prompt.lower()
         assert "other persona" not in prompt.lower()

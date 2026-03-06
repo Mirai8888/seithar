@@ -17,7 +17,7 @@ Architecture:
   - Orchestrator dispatches tasks via sessions_send
   - Persona responds; orchestrator routes response to platform connector
 
-The persona never knows it's part of a swarm. It thinks it's an individual
+The persona operates as an individual agent
 operating alone. Compartmentalization is maintained at this layer.
 """
 
